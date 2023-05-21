@@ -1,0 +1,176 @@
+.settingContainer{
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+}
+.navbarSetting{
+  width: 100%;
+  font-size: 18px;
+  column-gap: 20px;
+  font-weight: 700;
+  background-color: #ffffff;
+  color: #000000;
+  >div{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    width: 90%;
+    margin: auto;
+    .contentSetting{
+      opacity: 0.5;
+      padding: 5px;
+      border-bottom: 3px solid transparent;
+      &:hover{
+        opacity: 1;
+        color: black;
+        cursor: pointer;
+      }
+    }
+    .activeSetting{
+      color: blue;
+      opacity: 1;
+      background-color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 3px solid blue;
+    }
+  }
+}
+.wrapSetting{
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .itemSetting{
+    width: 100%;
+    .titleSetting{
+      text-align: left;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      color: #1c1c1c;
+      margin-top: 15px;
+    }
+    .accountPre{
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      line-height: 12px;
+      text-transform: uppercase;
+      color: #7c7c7c;
+      margin: 32px 0;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 6px;
+    }
+
+  }
+  .itemGender{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+    .titleGender{
+      text-align: left;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      color: #1c1c1c;
+    }
+    .selectGender {
+      border: 2px solid #2b64a9;
+      border-radius: 10px;
+      width: 130px;
+      .ant-select-selector {
+        border-radius: inherit;
+      }
+    }
+  }
+  .itemEmail{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+    .titleEmail{
+      text-align: left;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      color: #1c1c1c;
+    }
+    .ant-input{
+      max-width: 350px;
+    }
+  }
+  .itemPassword{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+    .titlePassword{
+      text-align: left;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      color: #1c1c1c;
+    }
+    .inputPasswordSetting{
+      width: 350px;
+    }
+  }
+  .itemDelete{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
+    margin: 35px 0;
+    .titleDelete{
+      text-align: left;
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      color: #ff7875;;
+    }
+    .btnDeleteSetting{
+      width: 150px;
+      height: 35.2px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: unset;
+      line-height: 17px;
+      text-transform: unset;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+    }
+  }
+}
+.itemPasswords{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+  .titlePassword{
+    text-align: left;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #1c1c1c;
+  }
+  .inputPasswordSetting{
+    width: 350px;
+  }
+  .wrap-password{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+}

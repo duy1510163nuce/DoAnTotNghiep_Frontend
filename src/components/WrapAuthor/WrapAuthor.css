@@ -1,0 +1,32 @@
+.wrapAuthor{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    column-gap: 10px;
+}
+.author{
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+.avatar{
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+}
+.authorName{
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    line-height: 100%;
+    letter-spacing: 0.6px;
+}
+.wrapTimes{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #695e5e;
+    column-gap: 5px;
+}

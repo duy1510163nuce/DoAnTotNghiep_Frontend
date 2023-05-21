@@ -1,0 +1,38 @@
+.wrapLoading {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  .ant-spin {
+    position: absolute;
+    z-index: 10;
+    top: 40%;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+.homeContainer {
+  width: 100%;
+  //width: 100vw;
+}
+.body {
+  width: 100%;
+  display: flex;
+}
+.left {
+  //width: 22%;
+  max-width: 280px;
+  background-color: #c3c3e9;
+}
+.right {
+  width: 82%;
+  background-color: #fff;
+  display: flex;
+}
+.content {
+  width: 70%;
+}
+.suggest {
+  width: 30%;
+}

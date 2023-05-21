@@ -1,0 +1,217 @@
+.userContainer{
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ccc;
+}
+.navbar{
+  width: 100%;
+
+  font-size: 18px;
+  column-gap: 20px;
+  font-weight: 700;
+  background-color: #ffffff;
+  color: #000000;
+  >div{
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    width: 70%;
+    margin: auto;
+    text-align: left;
+    .contentUser{
+      opacity: 1;
+      padding: 10px;
+      border-bottom: 3px solid transparent;
+    }
+    .contentUser:hover{
+      opacity: 0.5;
+      color: black;
+      cursor: pointer;
+    }
+    .activeUser{
+      color: blue;
+      opacity: 1;
+      background-color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 3px solid blue;
+    }
+  }
+}
+.bodyUser{
+  width: 70%;
+  margin: auto;
+  background-color: #ccc;
+  display: flex;
+  column-gap: 20px;
+}
+.listPostUser{
+  flex: 2;
+  .filterUser{
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    margin-top: 20px;
+    background-color: #ffffff;
+    column-gap: 10px;
+    border-radius: 10px;
+    .btnNew{
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+      border: none;
+      background-color: transparent;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 100%;
+      opacity: 1;
+      &:hover{
+        opacity: 0.5;
+        background-color: #cccccc;
+        cursor: pointer;
+      }
+    }
+    .activeBtn{
+      display: flex;
+      align-items: center;
+      column-gap: 5px;
+      border: none;
+      background-color: #1677ff;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 100%;
+      cursor: pointer;
+    }
+  }
+  .postUser{
+    margin-top: 20px;
+  }
+}
+.profileUser{
+  flex: 1;
+  height: max-content;
+  background-color: white;
+  margin-top: 20px;
+  border-radius: 10px;
+  .imgUser{
+    width: 100%;
+    position: relative;
+    .inputUser{
+      position: absolute;
+      z-index: 10;
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+    > img{
+      border-radius: 10px 10px 0 0;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      z-index: 1;
+    }
+    > div{
+      position: absolute;
+      z-index: 5;
+      bottom: 8px;
+      left: 8px;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      border:1px solid blue;
+      &:hover{
+        cursor: pointer;
+      }
+      .cameraIcon{
+        font-size: 21px;
+        color: blue;
+      }
+
+    }
+
+  }
+  .wrapProfileUser{
+    width: 100%;
+    margin: 10px 0 30px 0;
+    .profileName{
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 100%;
+      letter-spacing: 1.34px;
+      color: #2b64a9;
+    }
+    > div{
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .profileItem{
+        display: flex;
+        row-gap: 5px;
+        flex-direction: column;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 1.34px;
+        .vote{
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 18px;
+          letter-spacing: 1.34px;
+          color: #ebeb12;
+        }
+        .comment{
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 18px;
+          letter-spacing: 1.34px;
+          color: #2b64a9;
+        }
+      }
+    }
+  }
+  .wrap-info-user{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    row-gap: 10px;
+    margin: 0 15px 15px;
+  }
+  .info-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 20px;
+    color: #2b64a9;
+  }
+  .edit-info{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin: 10px;
+    .info-edit{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #2b64a9;
+      padding: 10px;
+      width: 80%;
+      border-radius: 20px;
+      column-gap: 10px;
+      color: #2b64a9;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
+}
+

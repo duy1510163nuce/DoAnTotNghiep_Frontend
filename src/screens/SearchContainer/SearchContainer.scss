@@ -1,0 +1,73 @@
+.homeSearch{
+  width: 100%;
+  background-color: #ccc;
+  padding: 30px 15%;
+  height: 100vh;
+  .contentSearch{
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font-size: 18px;
+    column-gap: 20px;
+    font-weight: 700;
+    color: white;
+    .contentName{
+      opacity: 1;
+      padding: 10px;
+    }
+    .contentName:hover{
+      opacity: 0.5;
+      color: black;
+      cursor: pointer;
+    }
+    .active{
+      opacity: 1;
+      background-color: white;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #5e5ed4;
+      cursor: pointer;
+      color: #5e5ed4;
+    }
+  }
+  .wrapSelect{
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    .ant-select-arrow{
+      font-size: 10px !important;
+    }
+    .ant-select{
+      background-color: #6262d2;
+      border-radius: 10px;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+    .ant-select-selection-placeholder{
+      color: white;
+      font-weight: 700;
+      opacity: 0.7;
+    }
+  }
+  .listPost{
+    margin-top: 20px;
+    width: 100%;
+    .warning{
+      font-weight: 600;
+      font-size: 23px;
+      margin-top: 80px;
+      display: flex;
+      flex-direction: column;
+      > span{
+        font-size: 19px;
+        color: #6495ED;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
