@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 
 export const WrapAuthor = (props) =>{
 
-    const {authorName,avt,timePost,id} = props;
+    const {authorName,avt,timePost,authorId} = props;
     const timeConvert = formatTime(timePost);
     const navigate = useNavigate()
     const handleCLickAuthor = (id) =>{
@@ -13,7 +13,7 @@ export const WrapAuthor = (props) =>{
     }
     return(
         <div className="wrapAuthor">
-            <div className="author" onClick={()=>handleCLickAuthor(id)}>
+            <div className="author" onClick={()=>handleCLickAuthor(authorId)}>
                 <img className="avatar" width="20px" height="20px" src={avt }  alt='avtUser'/>
                 <p className="authorName">{authorName}</p>
             </div>

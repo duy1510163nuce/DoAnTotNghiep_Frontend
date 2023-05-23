@@ -18,7 +18,8 @@ export const UserContainer = ()=>{
     const [userOption,setUserOption] = useState('POSTS');
     const [filterOption,setFilterOption] = useState('NEW');
     const valueUser = useParams()
-    const [checked,setchecked] = useState(valueUser.idUser === 'true')
+    console.log(valueUser.idUser)
+    const [checked,setchecked] = useState(valueUser.idUser === 'true' || valueUser.idUser === localStorage.getItem('userId'))
     const [infoProfile,setInfoProfile] = useState()
     const [listPostProfile,setListPostProfile] = useState()
     const [filePicture, setFilePicture] = useState("");
@@ -63,14 +64,38 @@ export const UserContainer = ()=>{
             fetchInfo()
             fetchProfile()
             fetchPost()
+        }else {
+            let userId = valueUser.idUser
+            const fetchProfiles = async ()=>{
+                const path = `/user/profile/getOverallInfo/${userId}`
+                const response = await getData(path)
+                setInfoProfile(response?.result)
+            }
+            const fetchPosts = async ()=>{
+                const path = `/post/user/get-post/${userId}`
+                const res = await getDataWithToken(path)
+                setListPostProfile(res?.data?.result)
+            }
+            // const fetchInfos = async ()=>{
+            //     const path = '/user/getInfo';
+            //     const res = await getDataWithToken(path);
+            //     setInfoPerson(res?.data?.result);
+            //     setRequest({
+            //         id:localStorage.getItem('userId'),
+            //         phoneNumber:res?.data?.result?.phoneNumber,
+            //         email:res?.data?.result?.email,
+            //         fullName:res?.data?.result?.fullName,
+            //         gender:res?.data?.result?.gender,
+            //     })
+            // }
+            // fetchInfos()
+            fetchProfiles()
+            fetchPosts()
         }
 
     },[])
     console.log(infoPerson,request)
     const handleChangeAvt = (e) =>{
-        // console.log(e.target.files[0])
-        // setFilePicture(e.target.value.split('\\'))
-
         setFilePicture(e.target.files[0]);
         setPicture(e.target.value);
         const reader = new FileReader();
@@ -79,8 +104,6 @@ export const UserContainer = ()=>{
         });
         reader.readAsDataURL(e.target.files[0]);
     }
-    // let url = 'abc'
-
     useEffect(()=>{
         setImgData(imgData)
         setFilePicture(filePicture)
@@ -92,6 +115,7 @@ export const UserContainer = ()=>{
             try {
                 const path = '/user/profile/update'
                 await updateProfile(path,formData)
+                setFilePicture("")
             }catch (erorr){
                 console.log(erorr)
             }
@@ -149,7 +173,7 @@ export const UserContainer = ()=>{
                             <FontAwesomeIcon icon={faCameraRetro} className='cameraIcon'/>
                         </div>}
                     </div>
-                    {filePicture && <button onClick={onSave}>Save</button>}
+                    {filePicture && <button className='btnSaveAvatar' onClick={onSave}>Save</button>}
                     <div className='wrapProfileUser'>
                         <p className='profileName'>{infoProfile?.username}</p>
                         <div>
@@ -158,26 +182,28 @@ export const UserContainer = ()=>{
                             <p className='profileItem' >POSTS <span className='comment'>{infoProfile?.commentCount}</span></p>
                         </div>
                     </div>
-                    <div className='wrap-info-user'>
-                        <div className='info-item'>
-                            <FontAwesomeIcon icon={faPersonHalfDress}/>
-                            <p>{infoPerson?.gender || 'man'}</p>
-                        </div>
-                        <div className='info-item'>
-                            <FontAwesomeIcon icon={faEnvelope}/>
-                            <p>{infoPerson?.email}</p>
-                        </div>
-                        <div className='info-item'>
-                            <FontAwesomeIcon icon={faPhoneVolume}/>
-                            <p>{infoPerson?.phoneNumber || 'chưa có'}</p>
-                        </div>
-                    </div>
-                    <div className='edit-info'>
+                    {infoPerson &&(
+                        <div className='wrap-info-user'>
+                            <div className='info-item'>
+                                <FontAwesomeIcon icon={faPersonHalfDress}/>
+                                <p>{infoPerson?.gender || 'man'}</p>
+                            </div>
+                            <div className='info-item'>
+                                <FontAwesomeIcon icon={faEnvelope}/>
+                                <p>{infoPerson?.email}</p>
+                            </div>
+                            <div className='info-item'>
+                                <FontAwesomeIcon icon={faPhoneVolume}/>
+                                <p>{infoPerson?.phoneNumber || 'chưa có'}</p>
+                            </div>
+                        </div>)}
+                    {infoPerson &&(
+                        <div className='edit-info'>
                         <button className='info-edit' onClick={()=>navigate('/setting')}>
-                            <FontAwesomeIcon icon={faUserPen}/>
-                            <p className='profileName'>Edit</p>
+                        <FontAwesomeIcon icon={faUserPen}/>
+                        <p className='profileName'>Edit</p>
                         </button>
-                    </div>
+                        </div>)}
                 </div>
             </div>
         </div>

@@ -98,8 +98,10 @@
   background-color: white;
   margin-top: 20px;
   border-radius: 10px;
+  max-width: 350px;
   .imgUser{
     width: 100%;
+    max-height: 450px;
     position: relative;
     .inputUser{
       position: absolute;
@@ -112,7 +114,7 @@
     > img{
       border-radius: 10px 10px 0 0;
       width: 100%;
-      height: 250px;
+      max-height: 450px;
       object-fit: cover;
       z-index: 1;
     }
@@ -210,6 +212,19 @@
       color: #2b64a9;
       font-size: 16px;
       font-weight: 600;
+    }
+  }
+  .btnSaveAvatar{
+    margin-top: 10px;
+    width: 50%;
+    height: 30px;
+    border-radius: 20px;
+    background-color: #5b5bd4;
+    color: white;
+    border: none;
+    outline: none;
+    &:hover{
+      cursor: pointer;
     }
   }
 

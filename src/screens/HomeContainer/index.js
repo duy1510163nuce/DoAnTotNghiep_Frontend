@@ -53,12 +53,10 @@ export const HomeContainer = () => {
 
     useEffect(()=>{
         setCategoryId(categoryId);
-        console.log('aaa',categoryId)
         const fetchCategory = async () =>{
             try {
                 setLoading(true);
                 const path = '/post/filter';
-                console.log(categoryId)
                 const { data } = await getListPostWithCategory(
                     path,
                     categoryId,

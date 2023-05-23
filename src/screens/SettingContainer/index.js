@@ -1,8 +1,8 @@
 import './SettingContainer.scss';
 import {Header} from '../../components/Header';
 import {ListContentSetting} from '../../contants/ContentTitle';
-import React, {useEffect, useState} from 'react';
-import {Input, Select, Button,Form} from 'antd';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Input, Select, Button,Form,Modal} from 'antd';
 import {changePassword, createPost, getDataWithToken, pushVote, updateProfile} from "../../services/HandleData";
 import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
@@ -14,7 +14,14 @@ import {useNavigate} from "react-router-dom";
 export const SettingContainer = () =>{
     const [userOption,setUserOption] = useState('ACCOUNT');
     const [confirmPassword,setConfirmPassword] = useState()
-
+    const [request,setRequest] = useState({
+        id:localStorage.getItem('userId'),
+        phoneNumber:'',
+        email:'',
+        fullName:'',
+        gender:'',
+    })
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [dataUpdate,setDataUpdate] = useState()
     const navigate = useNavigate()
     useEffect(()=>{
@@ -22,6 +29,13 @@ export const SettingContainer = () =>{
                 const path = '/user/getInfo';
                 const res = await getDataWithToken(path);
                 setDataUpdate(res?.data?.result);
+                setRequest({
+                    id:localStorage.getItem('userId'),
+                    phoneNumber:res?.data?.result?.phoneNumber,
+                    email:res?.data?.result?.email,
+                    fullName:res?.data?.result?.fullName,
+                    gender:res?.data?.result?.gender,
+                })
             }
             fetchInfo()
     },[])
@@ -30,14 +44,6 @@ export const SettingContainer = () =>{
         oldPassword:dataUpdate?.password,
         newPassword:'',
     })
-    console.log("dataUpdate",dataUpdate)
-    const [valueSetting,setValueSetting] = useState({
-        gender:'man',
-        phoneNumber: null,
-        email:dataUpdate?.email,
-        id:dataUpdate?.id,
-    });
-    // console.log(dataUpdate)
     const {
         handleSubmit,
         control,
@@ -58,24 +64,36 @@ export const SettingContainer = () =>{
         }
     }, [dataUpdate]);
     const onSubmit = async (data) => {
-        setValueSetting({
+        setRequest({
+            id: request.id,
             gender:data.gender,
             email:data.email,
             phoneNumber:data.phone,
-            id:dataUpdate?.id,
+            fullName: dataUpdate?.fullName
         })
+        setIsModalOpen(true);
+    }
+
+    const handleOk = () => {
         const formData = new FormData();
-        formData.append("request", valueSetting);
-        try {
-            const path = "/user/profile/update";
-            const response = await updateProfile(path, formData);
-            if (response.data.statusCode === 201) {
-                reset();
-                navigate("/");
+        formData.append("request", JSON.stringify(request));
+        const putRequest = async () => {
+            try {
+                const path = "/user/profile/update";
+                const response = await updateProfile(path, formData);
+                if (response.data.statusCode === 201) {
+                    reset();
+                    navigate("/");
+                }
+            } catch (error) {
+                alert(error.response.message);
             }
-        } catch (error) {
-            alert(error.response.message);
         }
+        putRequest()
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
     };
     const handleChangePassword = (e,type) =>{
         if(type === 'old'){
@@ -132,16 +150,12 @@ export const SettingContainer = () =>{
                                 {...field}
                                 options={[
                                     {
-                                        value: 'man',
-                                        label: 'MAN',
+                                        value: 'MALE',
+                                        label: 'MALE',
                                     },
                                     {
-                                        value: 'woman',
-                                        label: 'WOMAN',
-                                    },
-                                    {
-                                        value: 'other',
-                                        label: 'OTHER',
+                                        value: 'FEMALE',
+                                        label: 'FEMALE',
                                     },
                                 ]}
                             />
@@ -194,6 +208,9 @@ export const SettingContainer = () =>{
                     </Button>
                 </div>
             </Form>}
+            <Modal title="Thông báo xác nhận" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <p>bạn chắc chắn muốn thay đổi thông tin chứ?</p>
+            </Modal>
             { userOption === 'SECURITY' &&
                 (
                     <div className='wrapSetting' onFinish={handleSubmit(onSubmit)}>

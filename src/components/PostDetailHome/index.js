@@ -41,7 +41,7 @@ export const PostDetailHome = ( props)=>{
     };
     return(
         <div className="postDetail" key={item?.id}>
-            <WrapAuthor avt = {item?.avt} authorName = {item?.author} timePost = {item?.timePost}  />
+            <WrapAuthor avt = {item?.avt} authorName = {item?.author} timePost = {item?.timePost} authorId = {item?.authorId}  />
             <div className="wrapStatus">
                 <p className='postContent'>{item?.content}</p>
                 {item?.hashTags?.map((hashtag)=>{
