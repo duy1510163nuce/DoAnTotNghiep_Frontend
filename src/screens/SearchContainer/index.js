@@ -16,7 +16,7 @@ export  const SearchContainer = (props) =>{
     const [checkLogin,setCheckLogin] = useState(false);
     const navigate = useNavigate();
     const [listDataFilter,setListDataFilter] = useState([]);
-    const pageSize = 3;
+    const pageSize = 4;
     const valueParams = useParams()
     const [searchOption,setSearchOption] = useState({
         valueSearch:valueParams.value,
@@ -109,13 +109,13 @@ export  const SearchContainer = (props) =>{
                         })}
                         {listDataFilter.length === 0 &&
                             <p className='warning'>
-                                hmm... Looks like what you're looking for doesn't exist
+                                hmm... Looks like what you're looking for doesn't exist or has expired
                             </p>
 
                         }
                     </div>
-                    {listDataFilter.length!==0 && <div className='footer'>
-                        <p className='btnSeeMore' onClick={()=>onSeeMore('next')}>See More ...</p>
+                    {(listDataFilter.length !== 0 && listDataFilter.length === 4) && <div className='footer'>
+                        <p className='btnSeeMore' onClick={()=>onSeeMore('next')}>Xem thêm ...</p>
                     </div>}
                 </div>
             </div>

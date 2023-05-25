@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookie from "universal-cookie";
 
 const defaultConfig = {
     withAuthToken: true,
@@ -23,7 +24,9 @@ export function createAxios(config) {
 
     if (configValues.withAuthToken) {
         client.interceptors.request.use((requestConfig) => {
-            const accessToken = localStorage.getItem('accessToken');
+            var cookie = new Cookie();
+            const accessToken = cookie?.get('accessToken')
+            // const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) {
                 return requestConfig;
             }

@@ -62,7 +62,7 @@ export  const RegisterContainer = () =>{
                         render={({ field }) => (
                             <Input
                                 {...field}
-                                placeholder="Enter your full name"
+                                placeholder="Enter your user name"
                                 className="input"
                                 status={errors.name && 'error'}
                             />

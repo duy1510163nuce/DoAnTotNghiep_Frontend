@@ -8,14 +8,18 @@ import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {ValidationUpdateInfo} from "../../components/Validate";
 import {useNavigate} from "react-router-dom";
+import Cookie from "universal-cookie";
 
 
 
 export const SettingContainer = () =>{
     const [userOption,setUserOption] = useState('ACCOUNT');
     const [confirmPassword,setConfirmPassword] = useState()
+    const [checkChangePassWord,setCheckChangePassword] = useState(false)
+    let cookie = new Cookie();
+    const userID = cookie?.get('userId')
     const [request,setRequest] = useState({
-        id:localStorage.getItem('userId'),
+        id:userID,
         phoneNumber:'',
         email:'',
         fullName:'',
@@ -30,7 +34,7 @@ export const SettingContainer = () =>{
                 const res = await getDataWithToken(path);
                 setDataUpdate(res?.data?.result);
                 setRequest({
-                    id:localStorage.getItem('userId'),
+                    id:userID,
                     phoneNumber:res?.data?.result?.phoneNumber,
                     email:res?.data?.result?.email,
                     fullName:res?.data?.result?.fullName,
@@ -40,7 +44,7 @@ export const SettingContainer = () =>{
             fetchInfo()
     },[])
     const [password,setPassword] = useState({
-        id:localStorage.getItem("userId"),
+        id:userID,
         oldPassword:dataUpdate?.password,
         newPassword:'',
     })
@@ -74,23 +78,39 @@ export const SettingContainer = () =>{
         setIsModalOpen(true);
     }
 
-    const handleOk = () => {
-        const formData = new FormData();
-        formData.append("request", JSON.stringify(request));
-        const putRequest = async () => {
-            try {
-                const path = "/user/profile/update";
-                const response = await updateProfile(path, formData);
-                if (response.data.statusCode === 201) {
-                    reset();
-                    navigate("/");
+    const handleOk = async () => {
+        console.log(password,confirmPassword)
+        if (checkChangePassWord){
+                if(password?.newPassword === confirmPassword){
+                    try {
+                       const path = '/user/changePassword'
+                       await changePassword(path,password)
+                       setCheckChangePassword(false)
+                       setIsModalOpen(false);
+                       navigate('/')
+                    } catch (erorr) {
+                        alert(erorr.response.data.message);
+                    }
                 }
-            } catch (error) {
-                alert(error.response.message);
+                else alert('mật khẩu nhập lại không khớp')
+        }else {
+            const formData = new FormData();
+            formData.append("request", JSON.stringify(request));
+            const putRequest = async () => {
+                try {
+                    const path = "/user/profile/update";
+                    await updateProfile(path, formData);
+                    reset();
+                    setIsModalOpen(false);
+                    navigate("/");
+                } catch (error) {
+                    alert(error?.response?.data?.message);
+                }
             }
+            putRequest()
         }
-        putRequest()
-        setIsModalOpen(false);
+
+
     };
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -105,16 +125,8 @@ export const SettingContainer = () =>{
         return setConfirmPassword(e.target.value)
     }
     const onPassword = async ()=>{
-        if(password?.newPassword === confirmPassword){
-            try {
-               const path = '/user/changePassword'
-               await changePassword(path,password)
-               navigate('/')
-            } catch (erorr) {
-                alert(erorr.response.data.message);
-            }
-        }
-        return alert('mật khẩu nhập lại không khớp')
+        setIsModalOpen(true);
+        setCheckChangePassword(true)
     }
     return(
         <div className='settingContainer'>
@@ -225,14 +237,13 @@ export const SettingContainer = () =>{
                             <div className='wrap-password'>
                                 <Input
                                     onChange = {(e)=>handleChangePassword(e,'old')}
-                                    // value={dataUpdate?.password}
                                     className='inputPasswordSetting'
                                     placeholder="Enter your old password"
                                 />
                                 <Input
                                     onChange = {(e)=>handleChangePassword(e,'new')}
                                     className='inputPasswordSetting'
-                                    placeholder="Enternew your new password"
+                                    placeholder="Enter your new password"
                                 />
                                 <Input
                                     onChange = {(e)=>handleChangePassword(e,"confirm")}

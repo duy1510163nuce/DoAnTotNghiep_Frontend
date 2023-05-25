@@ -3,10 +3,11 @@ import { Header } from '../../components/Header';
 import { HomeLeft } from '../../components/HomeLeft';
 import { Content } from './components/Content';
 import { HomeRight } from '../../components/HomeRight';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { Spin } from 'antd';
 import {getDataWithParams, getListPost, getListPostWithCategory} from '../../services/HandleData';
 import { ListPost } from '../../contants/ListPost';
+import Cookie from 'universal-cookie'
 export const HomeContainer = () => {
     const [isClickPopular, setIsClickPopular] = useState(false);
     const [listData, setListData] = useState([]);
@@ -14,14 +15,13 @@ export const HomeContainer = () => {
     const [isLogOut, setIsLogOut] = useState(false);
     const [loading, setLoading] = useState(false);
     const [categoryId, setCategoryId] = useState(null);
-    const token = localStorage.getItem('accessToken');
+    const token = cookie?.get('accessToken')
+    var cookie = new Cookie();
     const pageSize = 4;
     const [pageNo, setPageNo] = useState(1);
     useEffect(() => {
         const getListPostHome = async () => {
-
-            if (!token) {
-                console.log(2222)
+            if (token === '') {
                 try {
                     setLoading(true);
                     const path = '/post/filter';

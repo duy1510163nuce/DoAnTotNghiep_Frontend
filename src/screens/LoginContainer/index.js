@@ -8,10 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { pushData} from '../../services/HandleData';
 import './LoginContainer.css';
 import {pathApi} from '../../services/API';
+import Cookies from 'universal-cookie';
+
 export const LoginContainer = () =>{
     const [infoLogin,setInfoLogin] = useState();
     const [errorLogin,setErrorLogin] = useState(false);
     const navigate = useNavigate();
+    const cookies = new Cookies();
     const {
         handleSubmit,
         control,
@@ -32,8 +35,10 @@ export const LoginContainer = () =>{
             try {
                 const path = pathApi.login;
                 const res =  await pushData(path, infoLogin);
-                localStorage.setItem('accessToken', res.data.result.accessToken);
-                localStorage.setItem('userId', res.data.result.userDTO.id);
+                cookies.set('accessToken', res.data.result.accessToken, { path: '/' });
+                cookies.set('userId', res.data.result.userDTO.id, { path: '/' });
+                // localStorage.setItem('accessToken', res.data.result.accessToken);
+                // localStorage.setItem('userId', res.data.result.userDTO.id);
                 navigate('/');
             }catch (error){
                 alert(error.response.data.message);

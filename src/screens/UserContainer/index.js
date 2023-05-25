@@ -13,13 +13,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {useNavigate, useParams} from "react-router-dom";
 import {getData, getDataWithToken, updateProfile} from "../../services/HandleData";
+import Cookie from "universal-cookie";
 
 export const UserContainer = ()=>{
     const [userOption,setUserOption] = useState('POSTS');
     const [filterOption,setFilterOption] = useState('NEW');
     const valueUser = useParams()
-    console.log(valueUser.idUser)
-    const [checked,setchecked] = useState(valueUser.idUser === 'true' || valueUser.idUser === localStorage.getItem('userId'))
+    let cookie = new Cookie();
+    const userID = cookie?.get('userId')
+    const [checked,setchecked] = useState(valueUser.idUser === 'true'   )
     const [infoProfile,setInfoProfile] = useState()
     const [listPostProfile,setListPostProfile] = useState()
     const [filePicture, setFilePicture] = useState("");
@@ -30,7 +32,7 @@ export const UserContainer = ()=>{
     const formData = new FormData();
     const navigate = useNavigate()
     const [request,setRequest] = useState({
-        id:localStorage.getItem('userId'),
+        id:userID,
         phoneNumber:'',
         email:'',
         fullName:'',
@@ -38,7 +40,6 @@ export const UserContainer = ()=>{
     })
     useEffect(()=>{
         if(checked){
-            const userID = localStorage.getItem('userId')
            const fetchProfile = async ()=>{
                 const path = `/user/profile/getOverallInfo/${userID}`
                 const response = await getData(path)
@@ -54,7 +55,7 @@ export const UserContainer = ()=>{
                 const res = await getDataWithToken(path);
                 setInfoPerson(res?.data?.result);
                 setRequest({
-                    id:localStorage.getItem('userId'),
+                    id:userID,
                     phoneNumber:res?.data?.result?.phoneNumber,
                     email:res?.data?.result?.email,
                     fullName:res?.data?.result?.fullName,
@@ -76,25 +77,11 @@ export const UserContainer = ()=>{
                 const res = await getDataWithToken(path)
                 setListPostProfile(res?.data?.result)
             }
-            // const fetchInfos = async ()=>{
-            //     const path = '/user/getInfo';
-            //     const res = await getDataWithToken(path);
-            //     setInfoPerson(res?.data?.result);
-            //     setRequest({
-            //         id:localStorage.getItem('userId'),
-            //         phoneNumber:res?.data?.result?.phoneNumber,
-            //         email:res?.data?.result?.email,
-            //         fullName:res?.data?.result?.fullName,
-            //         gender:res?.data?.result?.gender,
-            //     })
-            // }
-            // fetchInfos()
             fetchProfiles()
             fetchPosts()
         }
 
     },[])
-    console.log(infoPerson,request)
     const handleChangeAvt = (e) =>{
         setFilePicture(e.target.files[0]);
         setPicture(e.target.value);
