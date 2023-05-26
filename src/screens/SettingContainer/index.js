@@ -15,8 +15,9 @@ import Cookie from "universal-cookie";
 export const SettingContainer = () =>{
     const [userOption,setUserOption] = useState('ACCOUNT');
     const [confirmPassword,setConfirmPassword] = useState()
+    const [checkLogin,setCheckLogin] = useState(true)
     const [checkChangePassWord,setCheckChangePassword] = useState(false)
-    let cookie = new Cookie();
+    var cookie = new Cookie();
     const userID = cookie?.get('userId')
     const [request,setRequest] = useState({
         id:userID,
@@ -130,7 +131,7 @@ export const SettingContainer = () =>{
     }
     return(
         <div className='settingContainer'>
-            <Header />
+            <Header checkLogin = {checkLogin} />
             <div className='navbarSetting'>
                 <div>
                     {ListContentSetting?.map((item,index)=>{

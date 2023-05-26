@@ -5,19 +5,29 @@ import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHouse, faTags} from '@fortawesome/free-solid-svg-icons';
 import {listCateGory} from '../../contants/Category';
+import Cookie from "universal-cookie";
 
 
 export const HomeLeft = (props) =>{
     const {setIsClickPopular,handleClickTopicITem,checkLogin} = props;
     const navigate = useNavigate();
-
+    var cookie = new Cookie();
     const onHome = () =>{
-        navigate('/');
+        if (checkLogin){
+            navigate('/');
+        }else navigate('/login')
     };
     const onPopular = () =>{
-        navigate('/');
+        if (checkLogin){
+            navigate('/');
+        }else navigate('/login')
         setIsClickPopular(true);
     };
+    const onRemoveCookie = () =>{
+        navigate('/login')
+        cookie.remove('accessToken')
+        cookie.remove('userId')
+    }
     return(
         <div className="homeLeft">
             <div className="feeds">
@@ -49,8 +59,8 @@ export const HomeLeft = (props) =>{
                 <p className="suggestText">
                     Create an account to follow <br/>your favorite communities<br/> and start taking part in conversations.
                 </p>
-                {checkLogin && <Button onClick={()=>navigate('/register')} type="primary" className="buttonLeft">Login out</Button>}
-                {!checkLogin && <Button onClick={()=>navigate('/login')} type="primary" className="buttonLeft">Sign in</Button>}
+                {checkLogin && <Button onClick={()=>onRemoveCookie('/login')} type="primary" className="buttonLeft">LogOut</Button>}
+                {!checkLogin && <Button onClick={()=>onRemoveCookie('/login')} type="primary" className="buttonLeft">Login</Button>}
             </div>
         </div>
     );

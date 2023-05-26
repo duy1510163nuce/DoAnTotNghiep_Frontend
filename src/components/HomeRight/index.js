@@ -13,7 +13,7 @@ export const HomeRight = (props)=>{
     return(
         <div className="homeRightContainer">
             <div className="wrapTable">
-                <p className="tableTitle">Có thể bạn chưa biết về Q&A</p>
+                <p className="tableTitle">Can you don't know to Q&A</p>
                 <div className="listMember">
                     {ListMember.map((member,index)=>{
                         return(

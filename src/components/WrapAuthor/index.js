@@ -5,11 +5,14 @@ import {useNavigate} from "react-router-dom";
 
 export const WrapAuthor = (props) =>{
 
-    const {authorName,avt,timePost,authorId} = props;
+    const {authorName,avt,timePost,authorId,checkLogin} = props;
+    console.log(checkLogin)
     const timeConvert = formatTime(timePost);
     const navigate = useNavigate()
     const handleCLickAuthor = (id) =>{
-        navigate(`/user/${id}`)
+        if(checkLogin){
+            navigate(`/user/${id}`)
+        }else navigate('/login')
     }
     return(
         <div className="wrapAuthor">

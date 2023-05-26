@@ -5,7 +5,10 @@
 }
 .navbar{
   width: 100%;
-
+  background-image: linear-gradient(135deg, #FAB2FF 10%, #1904E5 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   font-size: 18px;
   column-gap: 20px;
   font-weight: 700;
@@ -38,12 +41,23 @@
     }
   }
 }
+.wrapBodyUser{
+  width: 100%;
+  background-image: linear-gradient(135deg, #FAB2FF 10%, #1904E5 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 .bodyUser{
   width: 70%;
   margin: auto;
   background-color: #ccc;
   display: flex;
   column-gap: 20px;
+  background-image: linear-gradient(135deg, #FAB2FF 10%, #1904E5 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 .listPostUser{
   flex: 2;

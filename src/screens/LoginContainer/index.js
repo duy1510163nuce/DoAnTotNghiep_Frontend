@@ -9,6 +9,8 @@ import { pushData} from '../../services/HandleData';
 import './LoginContainer.css';
 import {pathApi} from '../../services/API';
 import Cookies from 'universal-cookie';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFacebook, faTwitter} from "@fortawesome/free-brands-svg-icons";
 
 export const LoginContainer = () =>{
     const [infoLogin,setInfoLogin] = useState();
@@ -50,44 +52,64 @@ export const LoginContainer = () =>{
         }
     }, [infoLogin]);
     return(
-        <div className="wrapLogin">
-            <div className="loginContainer">
-                <h1 className="title">Vui lòng đăng nhập:</h1>
-                <Form onFinish={handleSubmit(onSubmit)}>
-                    <Controller
-                        control={control}
-                        name="username"
-                        render={({ field }) => (
-                            <Input
-                                {...field}
-                                placeholder="Enter your username"
-                                className="input"
-                                status={(errors.email || errorLogin) && 'error'}
-                            />
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name="password"
-                        render={({ field }) => (
-                            <Input.Password
-                                {...field}
-                                placeholder="Enter your password"
-                                className="input"
-                                status={(errors.email || errorLogin) && 'error'}
-                            />
-                        )}
-                    />
-                    <Button htmlType="submit" className="btnLogin" type="primary">
-                        Log In
-                    </Button>
-                </Form>
-                <div className="footer">
-                    <span>Already have an account ? </span>
-                    <Link to="/register">Sign up</Link>
+        <body>
+        <div className="box-form">
+            <div className="leftLogin">
+                <div className="overlay">
+                    <h1>Question & Answer</h1>
+                    <p>Welcome to our website <br/>
+                        Wish you have a pleasant experience</p>
+                    <span>
+			            <p>login with social media</p>
+                        <div className='loginBtnWrap'>
+                            <Button className='btnLogin'><FontAwesomeIcon icon={faFacebook} className="fa fa-facebook" ></FontAwesomeIcon >Facebook</Button>
+                            <Button className='btnLogin'><FontAwesomeIcon icon={faTwitter} className="fa fa-facebook" ></FontAwesomeIcon >Twitter</Button>
+                        </div>
+		            </span>
                 </div>
-
             </div>
+            <div className="rightLogin">
+                <h5>Login</h5>
+                <Form onFinish={handleSubmit(onSubmit)}>
+                                 <Controller
+                                    control={control}
+                                    name="username"
+                                    render={({ field }) => (
+                                        <Input
+                                            {...field}
+                                            placeholder="Enter your username"
+                                            className="input"
+                                            status={(errors.email || errorLogin) && 'error'}
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    control={control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <Input.Password
+                                            {...field}
+                                            placeholder="Enter your password"
+                                            className="input"
+                                            status={(errors.email || errorLogin) && 'error'}
+                                        />
+                                    )}
+                                />
+                                <Button htmlType="submit" className="btnLogin" type="primary">
+                                    Log In
+                                </Button>
+                            </Form>
+                    <div className="remember-me--forget-password">
+                        <p>Don't have an account?
+                            <span className='linkLogin' onClick={()=>navigate('/register')}>
+                                Create Your Account<br/>
+                            </span>
+                                it takes less than a minute
+                        </p>
+                    </div>
+            </div>
+
         </div>
+        </body>
     );
 };

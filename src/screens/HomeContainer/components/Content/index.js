@@ -48,7 +48,7 @@ export const Content = (props) => {
                     <p className="warning">hmm... Current page has no data</p>
                 )}
             </div>
-            {(listData.length !== 0 && listData.length === 4) && (
+            {(listData.length !== 0 && listData.length >= 4) && (
                 <div className="footer">
                     <p className="btnSeeMore" onClick={() => onSeeMore('next')}>
                         xem thêm ...

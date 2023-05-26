@@ -19,10 +19,11 @@ export const UserContainer = ()=>{
     const [userOption,setUserOption] = useState('POSTS');
     const [filterOption,setFilterOption] = useState('NEW');
     const valueUser = useParams()
-    let cookie = new Cookie();
+    var cookie = new Cookie();
     const userID = cookie?.get('userId')
     const [checked,setchecked] = useState(valueUser.idUser === 'true'   )
     const [infoProfile,setInfoProfile] = useState()
+    const [checkLogin,setCheckLogin] = useState(true)
     const [listPostProfile,setListPostProfile] = useState()
     const [filePicture, setFilePicture] = useState("");
     const [picture, setPicture] = useState("");
@@ -113,7 +114,7 @@ export const UserContainer = ()=>{
     // console.log(url);
     return(
         <div className='userContainer'>
-            <Header />
+            <Header checkLogin = {checkLogin} />
             <div className='navbar'>
                 <div>
                     {ListContentUser?.map((item,index)=>{
@@ -126,73 +127,76 @@ export const UserContainer = ()=>{
                     })}
                 </div>
             </div>
-            <div className='bodyUser'>
-                <div className='listPostUser'>
-                    <div className='filterUser'>
-                        {ListFilterUser?.map((item,index)=>{
-                            return(
-                                <button className={filterOption === item.value?'activeBtn':'btnNew'}
-                                    key={index} onClick={()=>setFilterOption(item.value)}>
-                                    {item.label}
-                                </button>
-                            );
-                        })}
-                    </div>
-                    <div className='postUser'>
-                        {listPostProfile && listPostProfile.map((item)=>{
-                            return(
-                                <PostDetailHome item={item} />
-                            );
-                        })}
-                        {listPostProfile?.length ===0 &&
-                        <p className='warning'>
-                            hmm... u/nguyenDuy1702 hasn't posted anything
-                        </p>
-                        }
-                    </div>
-                </div>
-                <div className='profileUser'>
-                    <div className='imgUser'>
-                        {checked && <input type='file' className='inputUser' onChange={(e)=>handleChangeAvt(e)}/>}
-                        {/*<img src={infoProfile?.avtUrl ||'/image/avtName.jpg'} alt='avt-user'  />*/}
-                        <img src={imgData?.length? imgData:infoProfile?.avtUrl ||'/image/avtName.jpg'} alt='avt-user'  />
-                        {checked && <div>
-                            <FontAwesomeIcon icon={faCameraRetro} className='cameraIcon'/>
-                        </div>}
-                    </div>
-                    {filePicture && <button className='btnSaveAvatar' onClick={onSave}>Save</button>}
-                    <div className='wrapProfileUser'>
-                        <p className='profileName'>{infoProfile?.username}</p>
-                        <div>
-                            <p className='profileItem'>VOTES <span className='vote'>{infoProfile?.voteCount}</span></p>
-                            <p className='profileItem' >COMMENTS <span className='comment'>{infoProfile?.postCount}</span></p>
-                            <p className='profileItem' >POSTS <span className='comment'>{infoProfile?.commentCount}</span></p>
+            <div className='wrapBodyUser'>
+                <div className='bodyUser'>
+                    <div className='listPostUser'>
+                        <div className='filterUser'>
+                            {ListFilterUser?.map((item,index)=>{
+                                return(
+                                    <button className={filterOption === item.value?'activeBtn':'btnNew'}
+                                            key={index} onClick={()=>setFilterOption(item.value)}>
+                                        {item.label}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <div className='postUser'>
+                            {listPostProfile && listPostProfile.map((item)=>{
+                                return(
+                                    <PostDetailHome item={item} />
+                                );
+                            })}
+                            {listPostProfile?.length ===0 &&
+                                <p className='warning'>
+                                    hmm... u/nguyenDuy1702 hasn't posted anything
+                                </p>
+                            }
                         </div>
                     </div>
-                    {infoPerson &&(
-                        <div className='wrap-info-user'>
-                            <div className='info-item'>
-                                <FontAwesomeIcon icon={faPersonHalfDress}/>
-                                <p>{infoPerson?.gender || 'man'}</p>
+                    <div className='profileUser'>
+                        <div className='imgUser'>
+                            {checked && <input type='file' className='inputUser' onChange={(e)=>handleChangeAvt(e)}/>}
+                            {/*<img src={infoProfile?.avtUrl ||'/image/avtName.jpg'} alt='avt-user'  />*/}
+                            <img src={imgData?.length? imgData:infoProfile?.avtUrl ||'/image/avtName.jpg'} alt='avt-user'  />
+                            {checked && <div>
+                                <FontAwesomeIcon icon={faCameraRetro} className='cameraIcon'/>
+                            </div>}
+                        </div>
+                        {filePicture && <button className='btnSaveAvatar' onClick={onSave}>Save</button>}
+                        <div className='wrapProfileUser'>
+                            <p className='profileName'>{infoProfile?.username}</p>
+                            <div>
+                                <p className='profileItem'>VOTES <span className='vote'>{infoProfile?.voteCount}</span></p>
+                                <p className='profileItem' >COMMENTS <span className='comment'>{infoProfile?.postCount}</span></p>
+                                <p className='profileItem' >POSTS <span className='comment'>{infoProfile?.commentCount}</span></p>
                             </div>
-                            <div className='info-item'>
-                                <FontAwesomeIcon icon={faEnvelope}/>
-                                <p>{infoPerson?.email}</p>
-                            </div>
-                            <div className='info-item'>
-                                <FontAwesomeIcon icon={faPhoneVolume}/>
-                                <p>{infoPerson?.phoneNumber || 'chưa có'}</p>
-                            </div>
-                        </div>)}
-                    {infoPerson &&(
-                        <div className='edit-info'>
-                        <button className='info-edit' onClick={()=>navigate('/setting')}>
-                        <FontAwesomeIcon icon={faUserPen}/>
-                        <p className='profileName'>Edit</p>
-                        </button>
-                        </div>)}
+                        </div>
+                        {infoPerson &&(
+                            <div className='wrap-info-user'>
+                                <div className='info-item'>
+                                    <FontAwesomeIcon icon={faPersonHalfDress}/>
+                                    <p>{infoPerson?.gender || 'man'}</p>
+                                </div>
+                                <div className='info-item'>
+                                    <FontAwesomeIcon icon={faEnvelope}/>
+                                    <p>{infoPerson?.email}</p>
+                                </div>
+                                <div className='info-item'>
+                                    <FontAwesomeIcon icon={faPhoneVolume}/>
+                                    <p>{infoPerson?.phoneNumber || 'chưa có'}</p>
+                                </div>
+                            </div>)}
+                        {infoPerson &&(
+                            <div className='edit-info'>
+                                <button className='info-edit' onClick={()=>navigate('/setting')}>
+                                    <FontAwesomeIcon icon={faUserPen}/>
+                                    <p className='profileName'>Edit</p>
+                                </button>
+                            </div>)}
+                    </div>
                 </div>
             </div>
+
         </div>
     );
 };

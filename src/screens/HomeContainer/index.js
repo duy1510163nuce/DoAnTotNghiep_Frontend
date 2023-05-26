@@ -6,8 +6,8 @@ import { HomeRight } from '../../components/HomeRight';
 import React, { useEffect, useState} from 'react';
 import { Spin } from 'antd';
 import {getDataWithParams, getListPost, getListPostWithCategory} from '../../services/HandleData';
-import { ListPost } from '../../contants/ListPost';
 import Cookie from 'universal-cookie'
+import {useNavigate} from "react-router-dom";
 export const HomeContainer = () => {
     const [isClickPopular, setIsClickPopular] = useState(false);
     const [listData, setListData] = useState([]);
@@ -15,18 +15,20 @@ export const HomeContainer = () => {
     const [isLogOut, setIsLogOut] = useState(false);
     const [loading, setLoading] = useState(false);
     const [categoryId, setCategoryId] = useState(null);
-    const token = cookie?.get('accessToken')
+    const navigate = useNavigate()
     var cookie = new Cookie();
+    const token = cookie?.get('accessToken')
     const pageSize = 4;
+    console.log(token)
     const [pageNo, setPageNo] = useState(1);
     useEffect(() => {
         const getListPostHome = async () => {
-            if (token === '') {
+            if (token === undefined) {
                 try {
                     setLoading(true);
                     const path = '/post/filter';
                     const res = await getDataWithParams(path, pageSize, pageNo);
-                    setListData(res.result);
+                    setListData([...listData,...res.result]);
                     setLoading(false);
                 } catch (error) {
                     console.log('call fail');
@@ -41,7 +43,7 @@ export const HomeContainer = () => {
                         pageSize,
                         pageNo
                     );
-                    setListData(data.result);
+                    setListData([...listData,...data.result]);
                     setLoading(false);
                 } catch (error) {
                     console.log('call fail');
@@ -49,7 +51,7 @@ export const HomeContainer = () => {
             }
         };
         getListPostHome();
-    }, [ pageNo]);
+    }, [ token,pageNo]);
 
     useEffect(()=>{
         setCategoryId(categoryId);
@@ -72,27 +74,23 @@ export const HomeContainer = () => {
         fetchCategory()
     },[categoryId])
     const handleClickTopicITem = (value) =>{
-        setCategoryId(value);
-        setPageNo(1);
+        if (checkLogin){
+            setCategoryId(value);
+            setPageNo(1);
+        }else navigate('/login')
     }
     const onSeeMore = async (type) => {
-        if (type === 'back') {
-            setPageNo(1);
-            const pageSize = 4;
-            const path = '/post/filter';
-            const { data } = await getListPost(path, categoryId, pageSize, pageNo);
-            setListData(data.result);
-            setLoading(false);
-        }
-        if (type === 'next') {
-            setPageNo((pre) => pre + 1);
-            const pageSize = 4;
-            setLoading(true);
-            const path = '/post/filter';
-            const { data } = await getListPost(path, categoryId, pageSize, pageNo);
-            setListData(data.result);
-            setLoading(false);
-        }
+       // if (type === 'back') {
+       //    setPageNo(1);
+       //    const pageSize = 4;
+       //    const path = '/post/filter';
+       //    const { data } = await getListPost(path, categoryId, pageSize, pageNo);
+       //    setListData(data.result);
+       //    setLoading(false);
+       // }
+       if (type === 'next') {
+           setPageNo((pre) => pre + 1);
+       }
     };
     return (
         <div className="wrapLoading">

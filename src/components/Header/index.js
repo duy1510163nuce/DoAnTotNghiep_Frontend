@@ -7,17 +7,20 @@ import {useNavigate} from 'react-router-dom';
 import {useEffect, useState} from 'react';
 import {RedditOutlined,UserOutlined,DownOutlined} from '@ant-design/icons';
 import {getDataWithToken} from '../../services/HandleData';
+import Cookie from "universal-cookie";
 export  const Header = (props) =>{
     const {searchOption,checkLogin} = props;
     const [isLogOut,setIsLogout] = useState(false)
     const [infoPersonal,setInfoPersonal] = useState();
     const navigate = useNavigate();
     const [valueSearch,setValueSearch] = useState(searchOption?.valueSearch);
-    const accessToken = localStorage.getItem('accessToken')
+    var cookie = new Cookie();
+    const accessToken = cookie?.get('accessToken')
+
     let profile = 'true';
     useEffect(()=>{
         const fetchInfoUser = async ()=>{
-            if(accessToken){
+            if(accessToken !==undefined){
                 const path = '/user/getInfo';
                 const res = await getDataWithToken(path);
                 setInfoPersonal(res.data.result);
@@ -26,10 +29,17 @@ export  const Header = (props) =>{
         fetchInfoUser();
     },[]);
     const onNavigate =  (path)=>{
-        navigate(path);
+        if(path === '/login'){
+                navigate('/login')
+                cookie.remove('accessToken')
+                cookie.remove('userId')
+        }else navigate(path);
     };
     const onLogout = ()=>{
-        setIsLogout(!isLogOut);
+        if (checkLogin){
+            setIsLogout(!isLogOut);
+        }else navigate('/login')
+
     };
     const onSearchHeader = (e) => {
         setValueSearch( e.target.value)
@@ -38,7 +48,10 @@ export  const Header = (props) =>{
         setValueSearch('');
     };
     const handleSearch = ()=>{
-        navigate(`/search/${valueSearch.replaceAll('#','%23')}`);
+        if(checkLogin){
+            navigate(`/search/${valueSearch.replaceAll('#','%23')}`);
+        }else navigate('/login')
+
     };
     return(
         <div className="header">

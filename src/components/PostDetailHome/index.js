@@ -6,42 +6,46 @@ import {pushVote} from '../../services/HandleData';
 import {faShare,faBookmark,faComment,faStar} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 export const PostDetailHome = ( props)=>{
-    const {item} = props;
+    const {item,checkLogin} = props;
 
     const [checked,setChecked] = useState(item?.voteResultDTO?.isUserUpVoted);
     const [countVote,setCountVote] = useState(item?.voteResultDTO?.count);
     const navigate = useNavigate();
     let vote = {};
     const onComment = (item) =>{
-        return navigate(`/detail-page/${item.id}`);
+        if (checkLogin){
+            return navigate(`/detail-page/${item.id}`);
+        }else navigate('/login')
+
     };
 
     const  handleClickReact = async (item) =>{
-        // if(checkLogin){
-        if(item?.votePostDTO?.isUserUpVoted) {
-            vote ={
-                postId: item?.id,
-                vote: 'DOWN_VOTE',
-                voteFor:'POST',
-            };
-        }else{
-            vote={
-                postId:item?.id,
-                vote:'UP_VOTE',
-                voteFor:'POST',
-            };
-        }
-        try{
-            const res = await pushVote('/vote',vote);
-            setChecked(!checked);
-            setCountVote(res.data.result.voteCount);
-        }catch (error){
-            console.log('call fail');
-        }
+        if(checkLogin) {
+            if (item?.votePostDTO?.isUserUpVoted) {
+                vote = {
+                    postId: item?.id,
+                    vote: 'DOWN_VOTE',
+                    voteFor: 'POST',
+                };
+            } else {
+                vote = {
+                    postId: item?.id,
+                    vote: 'UP_VOTE',
+                    voteFor: 'POST',
+                };
+            }
+            try {
+                const res = await pushVote('/vote', vote);
+                setChecked(!checked);
+                setCountVote(res.data.result.voteCount);
+            } catch (error) {
+                console.log('call fail');
+            }
+        }else navigate('/login')
     };
     return(
         <div className="postDetail" key={item?.id}>
-            <WrapAuthor avt = {item?.avt} authorName = {item?.author} timePost = {item?.timePost} authorId = {item?.authorId}  />
+            <WrapAuthor avt = {item?.avt} authorName = {item?.author} timePost = {item?.timePost} authorId = {item?.authorId} checkLogin = {checkLogin}  />
             <div className="wrapStatus">
                 <p className='postContent'>{item?.content}</p>
                 {item?.hashTags?.map((hashtag)=>{
